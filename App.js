@@ -1,14 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
+import Styles from './styles/Styles.js';
 
 export default function App() {
 
   const [weight, setWeight] = useState(0);
-  const [bottles, setBottles] = useState(3);
+  const [bottles, setBottles] = useState(1);
   const [hours, setHours] = useState(1);
   const [result, setResult] = useState(0);
-  const [checked, setChecked] = useState('first');
+  const [selectedGender, setSelectedGender] = useState('female');
+
 
 
 
@@ -20,54 +22,88 @@ export default function App() {
     let burning = (weight / 10)
     let grams_left = ((grams - (burning * hours)))
 
+
     let alcohol_level = 0
 
-    // if (male) {
-    alcohol_level = (grams_left / (weight * 0.7))
-    setResult(alcohol_level)
-    // }
+    if (selectedGender === 'male') {
+      alcohol_level = (grams_left / (weight * 0.7))
+      setResult(alcohol_level)
+    }
 
-    // else if (female) {
-    //   result = (grams_left / (weight * 0.6))
-    //   setResult(result)
-    // }
+    else if (selectedGender === 'female') {
+      alcohol_level = (grams_left / (weight * 0.6))
+      setResult(alcohol_level)
+    }
 
-    // if (result < 0) {
-    //   setResult(0)
-    // }
+    if (alcohol_level < 0) {
+      setResult(0)
+    }
+
+    if (!weight) {
+      Alert.alert('Error', 'Please enter a value.');
+    }
 
   }
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <Text>Alcometer</Text>
-        <Text>Weight:</Text>
-        <TextInput
-          style={styles.textInput}
-          value={weight}
-          keyboardType='numeric'
-          onChangeText={w => setWeight(w)}
-        />
-        <Text>Bottles</Text>
-        {/* <Text>Hours</Text> */}
-
-        {/* <RadioButton
-        value="first"
-        status={ checked === 'male' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('male')}
+    <View style={Styles.container}>
+      <Text>Alcometer</Text>
+      <Text>Weight:</Text>
+      <TextInput
+        style={Styles.textInput}
+        value={weight}
+        keyboardType='numeric'
+        onChangeText={w => setWeight(w)}
       />
+      <Text>Bottles</Text>
 
-      <RadioButton
-        value="second"
-        status={ checked === 'female' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('female')}
-      /> */}
-
-        <Button title='calculate' color={'red'} onPress={calculate} />
-        <Text style={styles.result}>{result.toFixed(2)}</Text>
-        <StatusBar style="auto" />
+      <View style={[Styles.wrapper, Styles.border]}>
+        <TouchableOpacity onPress={() => bottles > 1 && setBottles(bottles - 1)}>
+        <Text style={{ fontSize: 20 }}>-</Text>
+      </TouchableOpacity>
+      <Text style={{ fontSize: 20, paddingHorizontal: 15 }}>{bottles}</Text>
+      <TouchableOpacity onPress={() => setBottles(bottles + 1)}>
+        <Text style={{ fontSize: 20 }}>+</Text>
+      </TouchableOpacity>
       </View>
+
+      <Text>Hours:</Text>
+
+      <View style={[Styles.wrapper, Styles.border]}>
+        <TouchableOpacity onPress={() => hours > 1 && setHours(hours - 1)}>
+        <Text style={{ fontSize: 20 }}>-</Text>
+      </TouchableOpacity>
+      <Text style={{ fontSize: 20, paddingHorizontal: 15 }}>{hours}</Text>
+      <TouchableOpacity onPress={() => setHours(hours + 1)}>
+        <Text style={{ fontSize: 20 }}>+</Text>
+      </TouchableOpacity>
+      </View>
+
+
+      <TouchableOpacity onPress={() => setSelectedGender('female')} style={Styles.wrapper}>
+        <View style={Styles.radio}>
+          {selectedGender === 'female' && (
+            <View style={Styles.circle} />
+          )}
+        </View>
+        <Text>Female</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => setSelectedGender('male')} style={Styles.wrapper}>
+        <View style={Styles.radio}>
+          {selectedGender === 'male' && (
+            <View style={Styles.circle} />
+          )}
+        </View>
+        <Text>Male</Text>
+      </TouchableOpacity>
+
+
+      <Button title='calculate' color={'red'} onPress={calculate} />
+      <Text style={Styles.result}>{result.toFixed(2)}</Text>
+      <StatusBar style="auto" />
+    </View>
 
 
     </ScrollView>
@@ -76,25 +112,3 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textInput: {
-    padding: 5,
-    borderWidth: 1,
-    marginBottom: 10
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: "bold"
-  },
-  result: {
-    color: '#b00000',
-    fontSize: 18,
-    fontWeight: "bold"
-  }
-});
