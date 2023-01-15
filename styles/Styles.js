@@ -3,14 +3,16 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
     },
     textInput: {
         padding: 5,
         borderWidth: 1,
-        marginBottom: 10
+        borderRadius: 6,
+        marginBottom: 10,
+        width: 118,
+        height: 65,
     },
 
     result: {
@@ -42,6 +44,41 @@ export default StyleSheet.create({
 
     border: {
         borderWidth: 1,
+        borderRadius: 6,
     },
+
+    dark: {
+        backgroundColor: "gray",
+      },
+
+    light: {
+        backgroundColor: "white",
+      },
+
+    heading: {
+        fontWeight: 'bold',
+        fontSize: 35,
+        marginTop: 40,
+        marginBottom: 20,
+    },
+
+    button: {
+        padding: 20,
+        color: 'red',
+        borderWidth: 1,
+        borderRadius: 6,
+        width: 118,
+        alignItems: 'center',
+    },
+
+    low: {
+        color: "green",
+    },
+      medium: {
+        color: "yellow",
+    },
+      high: {
+        color: "red",
+      },
 
 });
