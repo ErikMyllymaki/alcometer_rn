@@ -42,13 +42,22 @@ export default StyleSheet.create({
         backgroundColor: 'black',
     },
 
+    whitecircle: {
+        height: 12,
+        width: 12,
+        borderRadius: 6,
+        backgroundColor: 'white',
+    },
+
     border: {
         borderWidth: 1,
         borderRadius: 6,
     },
 
     dark: {
-        backgroundColor: "gray",
+        backgroundColor: "#404040",
+        color: 'white',
+        borderColor : 'white',
       },
 
     light: {
@@ -72,12 +81,12 @@ export default StyleSheet.create({
     },
 
     low: {
-        color: "green",
+        color: "#0FFF50",
     },
-      medium: {
+    medium: {
         color: "yellow",
     },
-      high: {
+    high: {
         color: "red",
       },
 
